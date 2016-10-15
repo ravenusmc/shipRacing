@@ -26,6 +26,7 @@ carImg = pygame.image.load('ship.png')
 
 pause = False
 
+
 def things_dodged(count):
     font = pygame.font.SysFont(None, 25)
     text = font.render("Dodged: " + str(count), True, black)
@@ -55,7 +56,23 @@ def message_display(text):
 
 
 def crash():
-    message_display("You Crashed!")
+
+    largeText = pygame.font.Font('freesansbold.ttf', 115)
+    TextSurf, TextRect = text_objects("You Crashed", largeText)
+    TextRect.center = ((display_width/2), (display_height/2))
+    gameDisplay.blit(TextSurf, TextRect)
+    
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        button("Again?", 150,450,100,50, green, bright_green, game_loop)
+        button("Quit!", 550,450,100,50, red, bright_red, "Quit")
+
+        pygame.display.update()
+        clock.tick(15)
 
 def button(msg,x,y,w,h,ic,ac,action=None):
         mouse = pygame.mouse.get_pos()
