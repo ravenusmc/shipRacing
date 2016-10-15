@@ -4,6 +4,9 @@ import random
 
 pygame.init()
 
+crash_sound = pygame.mixer.Sound("crash.wav")
+pygame.mixer.music.load("Soul_and_Mind.wav")
+
 display_width = 800
 display_height = 600
 
@@ -25,7 +28,6 @@ clock = pygame.time.Clock()
 carImg = pygame.image.load('ship.png')
 
 pause = False
-
 
 def things_dodged(count):
     font = pygame.font.SysFont(None, 25)
@@ -56,6 +58,9 @@ def message_display(text):
 
 
 def crash():
+
+    pygame.mixer.music.stop()
+    pygame.mixer.Sound.play(crash_sound)
 
     largeText = pygame.font.Font('freesansbold.ttf', 115)
     TextSurf, TextRect = text_objects("You Crashed", largeText)
@@ -99,9 +104,12 @@ def button(msg,x,y,w,h,ic,ac,action=None):
 def unpause():
 
     global pause
+    pygame.mixer.music.unpause()
     pause = False
         
 def paused():
+
+    pygame.mixer.music.pause()
     
     while pause:
         for event in pygame.event.get():
@@ -150,6 +158,9 @@ def game_intro():
 def game_loop():
 
     global pause
+    
+    #putting -1 makes the music repeat over and over again. 
+    pygame.mixer.music.play(-1)
     
     x = (display_width * 0.45)
     y = (display_height * 0.8)
