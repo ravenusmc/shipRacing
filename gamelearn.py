@@ -24,6 +24,8 @@ clock = pygame.time.Clock()
 
 carImg = pygame.image.load('ship.png')
 
+pause = False
+
 def things_dodged(count):
     font = pygame.font.SysFont(None, 25)
     text = font.render("Dodged: " + str(count), True, black)
@@ -76,9 +78,36 @@ def button(msg,x,y,w,h,ic,ac,action=None):
         textRect.center = ((x+(w/2)), (y + (h/2)))
         gameDisplay.blit(textSurf, textRect)
         
+def unpause():
+
+    global pause
+    pause = False
+        
+def paused():
+    
+    while pause:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        gameDisplay.fill(white)
+        largeText = pygame.font.Font('freesansbold.ttf', 115)
+        TextSurf, TextRect = text_objects("Paused", largeText)
+        TextRect.center = ((display_width/2), (display_height/2))
+        gameDisplay.blit(TextSurf, TextRect)
+
+        button("Continue!", 150,450,100,50, green, bright_green, unpause)
+        button("Quit!", 550,450,100,50, red, bright_red, "Quit")
+
+        pygame.display.update()
+        clock.tick(15)
+        
 
 def game_intro():
+    
     intro = True
+    
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -101,6 +130,8 @@ def game_intro():
         clock.tick(15)
         
 def game_loop():
+
+    global pause
     
     x = (display_width * 0.45)
     y = (display_height * 0.8)
@@ -129,6 +160,10 @@ def game_loop():
                     x_change = -5
                 elif event.key == pygame.K_RIGHT:
                     x_change = 5
+                elif event.key == pygame.K_p:
+                    pause = True
+                    paused()
+                    
                     
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
