@@ -64,11 +64,12 @@ def button(msg,x,y,w,h,ic,ac,action=None):
         if x + w > mouse[0] > x and y + h > mouse[1] > y:
             pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
             if click[0] == 1 and action != None:
-                if action == "Play":
-                    game_loop()
-                elif action == "Quit":
-                    pygame.quit()
-                    quit()
+                action()
+##                if action == "Play":
+##                    game_loop()
+##                elif action == "Quit":
+##                    pygame.quit()
+##                    quit()
                 
         else:
             pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
@@ -120,11 +121,11 @@ def game_intro():
         TextRect.center = ((display_width/2), (display_height/2))
         gameDisplay.blit(TextSurf, TextRect)
 
-        button("Go!", 150,450,100,50, green, bright_green, "Play")
-        button("Quit!", 550,450,100,50, red, bright_red, "Quit")
-
-##        button("Go!", 150,450,100,50, green, bright_green, game_loop())
+##        button("Go!", 150,450,100,50, green, bright_green, "Play")
 ##        button("Quit!", 550,450,100,50, red, bright_red, "Quit")
+
+        button("Go!", 150,450,100,50, green, bright_green, game_loop)
+        button("Quit!", 550,450,100,50, red, bright_red, "Quit")
         
         pygame.display.update()
         clock.tick(15)
